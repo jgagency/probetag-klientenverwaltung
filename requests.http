@@ -1,0 +1,42 @@
+@host = http://localhost:3000
+
+### Alle Klienten abrufen
+GET {{host}}/klienten
+
+### Einzelnen Klienten abrufen
+GET {{host}}/klient/1
+
+### Klient, den es nicht gibt (404)
+GET {{host}}/klient/9999
+
+### Neuen Klienten anlegen
+POST {{host}}/klient
+Content-Type: application/json
+
+{
+  "vorname": "Erika",
+  "nachname": "Beispiel",
+  "strasse": "Beispielweg 1",
+  "plz": "45127",
+  "ort": "Essen",
+  "telefon": "0201 000000",
+  "email": "erika.beispiel@example.de",
+  "versicherungsnummer": "Z999999999",
+  "versicherungsname": "AOK Essen"
+}
+
+### Klienten aktualisieren (Vollupdate – immer alle Felder schicken!)
+PUT {{host}}/klient/1
+Content-Type: application/json
+
+{
+  "vorname": "Max",
+  "nachname": "Mustermann",
+  "strasse": "Kettwiger Straße 12",
+  "plz": "45127",
+  "ort": "Essen",
+  "telefon": "0201 1234567",
+  "email": "max.mustermann@example.de",
+  "versicherungsnummer": "A123456789",
+  "versicherungsname": "AOK Essen"
+}
