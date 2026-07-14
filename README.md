@@ -33,7 +33,11 @@ Die API läuft danach auf **http://localhost:3000**.
 
 ## API
 
-Beispiel-Requests zum Ausprobieren liegen in [`requests.http`](requests.http)
+**Swagger UI:** Bei laufendem Backend gibt es die interaktive API-Doku unter
+**http://localhost:3000/api-docs** – dort lassen sich alle Endpunkte direkt
+ausprobieren („Try it out"). Die Spezifikation liegt in [`src/openapi.js`](src/openapi.js).
+
+Beispiel-Requests liegen außerdem in [`requests.http`](requests.http)
 (direkt ausführbar in VS Code mit der REST-Client-Extension oder in IntelliJ/WebStorm).
 
 ### Endpunkte

@@ -1,13 +1,16 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import swaggerUi from 'swagger-ui-express';
 import klientenRouter from './routes/klienten.js';
+import openapiSpec from './openapi.js';
 import { waitForDb } from './db.js';
 
 const app = express();
 
 app.use(cors()); // Dev-Setup: alle Origins erlaubt, damit ng serve (Port 4200) direkt funktioniert
 app.use(express.json());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpec));
 app.use(klientenRouter);
 
 // Unbekannte Routen
