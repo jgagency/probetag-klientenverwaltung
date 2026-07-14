@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: klienten-db
+    ports:
+      - "${PGPORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: klienten_db
+      POSTGRES_USER: probetag
+      POSTGRES_PASSWORD: probetag
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - klienten-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U probetag -d klienten_db"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+volumes:
+  klienten-db-data:
