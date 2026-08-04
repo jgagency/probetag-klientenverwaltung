@@ -1,0 +1,102 @@
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="mx-auto" style="max-width: 90%">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1 w-90">
+            <h4>Neuen Klient hinzufügen</h4>
+          </div>
+          <div>
+            <button class="btn justify-content-end" (click)="clientFormGroupService.reset()" data-bs-dismiss="modal" style="font-size: 30px">×</button>
+          </div>
+        </div>
+        <br>
+        <form [formGroup]="clientFormGroupService.clientForm">
+          <div class="mb-2 flex-grow-1">
+            <label class="form-label mb-1">Vorname*</label>
+            <input type="text" class="form-control" formControlName="vorname" name="vorname"
+              [class.is-invalid]="clientFormGroupService.clientForm.get('vorname')?.invalid &&
+              clientFormGroupService.clientForm.get('vorname')?.touched"
+            >
+            <app-form-errors [control]="clientFormGroupService.clientForm.get('vorname')"></app-form-errors>
+          </div>
+          <div class="mb-2 flex-grow-1">
+            <label class="form-label mb-1">Nachname*</label>
+            <input type="text" class="form-control" formControlName="nachname" name="nachname"
+              [class.is-invalid]="clientFormGroupService.clientForm.get('nachname')?.invalid &&
+              clientFormGroupService.clientForm.get('nachname')?.touched">
+            <app-form-errors [control]="clientFormGroupService.clientForm.get('nachname')"></app-form-errors>
+          </div>
+          <div class="mb-2 flex-grow-1">
+            <label class="form-label mb-1">E-Mail-Adresse*</label>
+            <input type="text" class="form-control" formControlName="email" name="email"
+              [class.is-invalid]="clientFormGroupService.clientForm.get('email')?.invalid &&
+              clientFormGroupService.clientForm.get('email')?.touched">
+            <app-form-errors [control]="clientFormGroupService.clientForm.get('email')"></app-form-errors>
+          </div>
+          <div class="mb-2 flex-grow-1">
+            <label class="form-label mb-1">Telefon</label>
+            <input type="text" class="form-control" formControlName="telefon" name="telefon"
+              [class.is-invalid]="clientFormGroupService.clientForm.get('telefon')?.invalid &&
+              clientFormGroupService.clientForm.get('telefon')?.touched">
+            <app-form-errors [control]="clientFormGroupService.clientForm.get('telefon')"
+              patternMessage="Bitte eine gültige Telefonnummer eingeben."></app-form-errors>
+          </div>
+          <div class="mb-2 flex-grow-1">
+            <label class="form-label mb-1">Straße + Hausnummer*</label>
+            <input type="text" class="form-control" formControlName="strasse" name="strasse"
+               [class.is-invalid]="clientFormGroupService.clientForm.get('strasse')?.invalid &&
+               clientFormGroupService.clientForm.get('strasse')?.touched">
+            <app-form-errors [control]="clientFormGroupService.clientForm.get('strasse')"></app-form-errors>
+          </div>
+          <div class="mb-2 d-flex flex-grow-1">
+            <div class="flex-grow-1 w-25">
+              <label class="form-label mb-1">PLZ*</label>
+              <input type="text" class="form-control" formControlName="plz" name="plz"
+                 [class.is-invalid]="clientFormGroupService.clientForm.get('plz')?.invalid &&
+                 clientFormGroupService.clientForm.get('plz')?.touched">
+              <app-form-errors [control]="clientFormGroupService.clientForm.get('plz')"
+                patternMessage="Eine Postleitzahl besteht nur aus Nummern."
+                minLengthMessage="Eine Postleitzahl hat fünf Ziffern."
+                maxLengthMessage="Eine Postleitzahl hat fünf Ziffern."
+              ></app-form-errors>
+            </div>
+            <div class="flex-grow-1 ms-3 w-75">
+              <label class="form-label mb-1">Ort*</label>
+              <input type="text" class="form-control" formControlName="ort" name="ort"
+                 [class.is-invalid]="clientFormGroupService.clientForm.get('ort')?.invalid &&
+                 clientFormGroupService.clientForm.get('ort')?.touched">
+              <app-form-errors [control]="clientFormGroupService.clientForm.get('ort')"></app-form-errors>
+            </div>
+          </div>
+          <div class="mb-2 flex-grow-1">
+            <label class="form-label mb-1">Versicherungsnummer</label>
+            <input type="text" class="form-control" formControlName="versicherungsnummer" name="versicherungsnummer"
+               [class.is-invalid]="clientFormGroupService.clientForm.get('versicherungsnummer')?.invalid &&
+               clientFormGroupService.clientForm.get('versicherungsnummer')?.touched"
+            >
+            <app-form-errors [control]="clientFormGroupService.clientForm.get('versicherungsnummer')"
+               minLengthMessage="Eine Versicherungsnummer hat zehn Ziffern."
+               maxLengthMessage="Eine Versicherungsnummer hat zehn Ziffern."
+            ></app-form-errors>
+          </div>
+          <div class="mb-2 flex-grow-1">
+            <label class="form-label mb-1">Versicherungsname</label>
+            <input type="text" class="form-control" formControlName="versicherungsname" name="versicherungsname"
+               [class.is-invalid]="clientFormGroupService.clientForm.get('versicherungsname')?.invalid &&
+               clientFormGroupService.clientForm.get('versicherungsname')?.touched"
+            >
+            <app-form-errors [control]="clientFormGroupService.clientForm.get('versicherungsname')"></app-form-errors>
+          </div>
+          <div class="d-flex justify-content-end" style="height: 40px" role="group" >
+            <button type="button" (click)="clientFormGroupService.reset()" class="btn btn-group-grey" data-bs-dismiss="modal">Abbrechen</button>
+            <button type="button" (click)="clientFormGroupService.save()" class="btn ms-3" style="background-color: #0f2480; color: white"
+                    [disabled]="clientFormGroupService.clientForm.invalid" data-bs-dismiss="modal"
+            >Hinzufügen</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

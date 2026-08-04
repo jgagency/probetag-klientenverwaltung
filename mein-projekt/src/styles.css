@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+.btn-group-grey{
+  background-color: #dde1e4;
+  color: #434548;
+}
+
+.pagination-clients{
+  --bs-pagination-color: #0f2485;
+  --bs-pagination-hover-bg: #0f2485;
+  --bs-pagination-active-bg: #0f2485;
+  --bs-pagination-active-border-color: #0f2485;
+}

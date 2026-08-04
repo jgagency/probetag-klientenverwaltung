@@ -1,0 +1,28 @@
+
+@if (touched()) {
+  @if (hasRequiredError()){
+    <div class="invalid-feedback d-block">
+      Dies ist ein Pflichtfeld.
+    </div>
+  }
+  @if (hasEmailError()){
+    <div class="invalid-feedback d-block">
+      Bitte eine gültige E-Mail Adresse eingeben.
+    </div>
+  }
+  @if (hasPatternError()){
+    <div class="invalid-feedback d-block">
+      {{ patternMessage() }}
+    </div>
+  }
+  @if (hasMinError()){
+    <div class="invalid-feedback d-block">
+      {{ minLengthMessage() }}
+    </div>
+  }
+  @if (hasMaxError()){
+    <div class="invalid-feedback d-block">
+      {{ maxLengthMessage() }}
+    </div>
+  }
+}
