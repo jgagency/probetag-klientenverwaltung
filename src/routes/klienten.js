@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import pool from '../db.js';
+import Klient from '../models/klient.js';
 
 const router = Router();
 
+// Die Felder, die aus dem Request-Body übernommen werden. Alles andere (z. B. eine
+// mitgeschickte id) wird ignoriert. Neues Feld? Hier eintragen — und eine Migration dazu.
 const FELDER = [
   'vorname',
   'nachname',
@@ -20,21 +22,22 @@ function parseId(wert) {
   return Number.isInteger(id) && id > 0 ? id : null;
 }
 
+// Baut aus dem Request-Body ein Objekt mit genau den bekannten Feldern.
+// Was fehlt, wird null — deshalb ist PUT ein Vollupdate.
+function werteAusBody(body) {
+  return Object.fromEntries(FELDER.map((feld) => [feld, body?.[feld] ?? null]));
+}
+
 // Liste aller Klienten
 router.get('/klienten', async (req, res) => {
-  const { rows } = await pool.query('SELECT * FROM klienten ORDER BY id');
-  res.json(rows);
+  const klienten = await Klient.findAll({ order: [['id', 'ASC']] });
+  res.json(klienten);
 });
 
 // Neuen Klienten anlegen
 router.post('/klient', async (req, res) => {
-  const werte = FELDER.map((feld) => req.body?.[feld] ?? null);
-  const platzhalter = FELDER.map((_, i) => `$${i + 1}`).join(', ');
-  const { rows } = await pool.query(
-    `INSERT INTO klienten (${FELDER.join(', ')}) VALUES (${platzhalter}) RETURNING *`,
-    werte
-  );
-  res.status(201).json(rows[0]);
+  const klient = await Klient.create(werteAusBody(req.body));
+  res.status(201).json(klient);
 });
 
 // Einzelnen Klienten abrufen
@@ -43,11 +46,11 @@ router.get('/klient/:id', async (req, res) => {
   if (id === null) {
     return res.status(400).json({ message: 'Ungültige ID – erwartet wird eine positive Zahl.' });
   }
-  const { rows } = await pool.query('SELECT * FROM klienten WHERE id = $1', [id]);
-  if (rows.length === 0) {
+  const klient = await Klient.findByPk(id);
+  if (klient === null) {
     return res.status(404).json({ message: `Klient mit ID ${id} wurde nicht gefunden.` });
   }
-  res.json(rows[0]);
+  res.json(klient);
 });
 
 // Klienten aktualisieren (Vollupdate: nicht mitgeschickte Felder werden geleert)
@@ -56,16 +59,14 @@ router.put('/klient/:id', async (req, res) => {
   if (id === null) {
     return res.status(400).json({ message: 'Ungültige ID – erwartet wird eine positive Zahl.' });
   }
-  const zuweisungen = FELDER.map((feld, i) => `${feld} = $${i + 1}`).join(', ');
-  const werte = FELDER.map((feld) => req.body?.[feld] ?? null);
-  const { rows } = await pool.query(
-    `UPDATE klienten SET ${zuweisungen} WHERE id = $${FELDER.length + 1} RETURNING *`,
-    [...werte, id]
-  );
-  if (rows.length === 0) {
+  const [, zeilen] = await Klient.update(werteAusBody(req.body), {
+    where: { id },
+    returning: true, // gibt die aktualisierten Datensätze zurück (Postgres kann das)
+  });
+  if (zeilen.length === 0) {
     return res.status(404).json({ message: `Klient mit ID ${id} wurde nicht gefunden.` });
   }
-  res.json(rows[0]);
+  res.json(zeilen[0]);
 });
 
 export default router;

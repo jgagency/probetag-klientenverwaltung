@@ -1,19 +1,22 @@
-import pg from 'pg';
+import { Sequelize } from 'sequelize';
 
 // Defaults passen zum docker-compose.yml — eine .env ist nur nötig, wenn du davon abweichst.
-const pool = new pg.Pool({
+// Dieselben Werte nutzt die sequelize-cli über db/config.js.
+const sequelize = new Sequelize({
+  dialect: 'postgres',
   host: process.env.PGHOST ?? 'localhost',
   port: Number(process.env.PGPORT ?? 5432),
   database: process.env.PGDATABASE ?? 'klienten_db',
-  user: process.env.PGUSER ?? 'probetag',
+  username: process.env.PGUSER ?? 'probetag',
   password: process.env.PGPASSWORD ?? 'probetag',
+  logging: false, // auf console.log stellen, wenn du die erzeugten SQL-Statements sehen willst
 });
 
 // Beim Start kann der Docker-Container noch hochfahren — deshalb kurz warten statt sofort abbrechen.
 export async function waitForDb(versuche = 15) {
   for (let i = 1; i <= versuche; i += 1) {
     try {
-      await pool.query('SELECT 1');
+      await sequelize.authenticate();
       return;
     } catch (fehler) {
       if (i === versuche) {
@@ -27,4 +30,4 @@ export async function waitForDb(versuche = 15) {
   }
 }
 
-export default pool;
+export default sequelize;

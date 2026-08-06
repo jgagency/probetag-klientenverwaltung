@@ -9,7 +9,8 @@ services:
       POSTGRES_USER: probetag
       POSTGRES_PASSWORD: probetag
     volumes:
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      # Schema und Demo-Daten kommen nicht mehr beim Containerstart, sondern über
+      # Sequelize: npm run db:migrate && npm run db:seed (oder npm run db:reset).
       - klienten-db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U probetag -d klienten_db"]
