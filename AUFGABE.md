@@ -83,11 +83,16 @@ Die genauen JSON-Feldnamen und ein Beispielobjekt stehen im [README](README.md).
 
 ## Mögliche Erweiterungen (Schritt 2, optional)
 
-Wenn nach der Frontend-Umsetzung noch Zeit ist, kann das Backend erweitert werden –
-zum Beispiel:
+Wenn nach der Frontend-Umsetzung noch Zeit ist, kann das Backend erweitert werden.
+Für zwei Erweiterungen liegen ausformulierte Aufgabenstellungen bereit:
 
-- **Klient löschen:** neuer Endpunkt `DELETE /klient/<id>` im Backend + Löschen-Button
-  im Frontend
+- **[Klient löschen](aufgaben/klient-loeschen.md):** neuer Endpunkt `DELETE /klient/<id>`
+  im Backend + Löschen-Button im Frontend
+- **[Geburtsdatum am Klienten](aufgaben/klient-geburtsdatum-hinzufuegen.md):** neues Feld
+  über eine Datenbank-Migration ergänzen
+
+Weitere Ideen ohne eigene Aufgabenstellung:
+
 - **Serverseitige Suche:** `GET /klienten?suche=…` filtert z. B. über Vor-/Nachname
 - **Serverseitige Pagination:** `GET /klienten?seite=…&proSeite=…`
 
