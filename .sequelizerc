@@ -1,0 +1,9 @@
+// Sagt der sequelize-cli, wo Config, Migrationen und Seeds liegen.
+// Alles unter db/ — dort gilt CommonJS (siehe db/package.json), die App selbst ist ESM.
+const path = require('node:path');
+
+module.exports = {
+  config: path.resolve('db', 'config.js'),
+  'migrations-path': path.resolve('db', 'migrations'),
+  'seeders-path': path.resolve('db', 'seeders'),
+};

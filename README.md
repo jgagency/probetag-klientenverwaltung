@@ -11,11 +11,11 @@ von Klienten, gebaut mit Node.js/Express und PostgreSQL.
 ## Setup
 
 ```bash
-# 1. Datenbank starten (legt Schema + 30 Demo-Klienten automatisch an)
-docker compose up -d
-
-# 2. Dependencies installieren
+# 1. Dependencies installieren
 npm install
+
+# 2. Datenbank starten, Schema anlegen, 30 Demo-Klienten einspielen
+npm run db:reset
 
 # 3. Backend starten
 npm start
@@ -23,13 +23,53 @@ npm start
 
 Die API läuft danach auf **http://localhost:3000**.
 
+`npm run db:reset` erledigt Schritt 2 komplett: Container hochfahren, warten bis die
+Datenbank bereit ist, Migrationen ausführen, Demo-Daten einspielen. Derselbe Befehl
+stellt später jederzeit den Ausgangszustand wieder her.
+
 ## npm-Scripts
 
-| Script             | Zweck                                                        |
-|--------------------|--------------------------------------------------------------|
-| `npm start`        | Backend starten                                              |
-| `npm run dev`      | Backend mit Auto-Restart bei Codeänderungen (`node --watch`) |
-| `npm run db:reset` | Datenbank komplett zurücksetzen (löscht alle Änderungen, spielt die 30 Demo-Klienten neu ein) |
+| Script                  | Zweck                                                        |
+|-------------------------|--------------------------------------------------------------|
+| `npm start`             | Backend starten                                              |
+| `npm run dev`           | Backend mit Auto-Restart bei Codeänderungen (`node --watch`) |
+| `npm run db:migrate`    | Ausstehende Migrationen ausführen                            |
+| `npm run db:migrate:undo` | Letzte Migration zurückrollen                              |
+| `npm run db:seed`       | Die 30 Demo-Klienten einspielen                              |
+| `npm run db:reset`      | Datenbank komplett zurücksetzen (Container neu, Migrationen, Demo-Daten) |
+
+## Datenbank & Migrationen
+
+Schema-Änderungen laufen über [Sequelize](https://sequelize.org/docs/v6/) und die
+`sequelize-cli` – nicht von Hand per SQL. So kommt jede*r mit `npm run db:migrate` auf
+denselben Stand.
+
+```
+db/
+├── config.js       Verbindungsdaten für die CLI (gleiche Defaults wie src/db.js)
+├── migrations/     Schema-Änderungen, laufen in Reihenfolge ihres Zeitstempels
+└── seeders/        Demo-Daten
+src/
+├── db.js           Sequelize-Instanz der Anwendung
+├── models/klient.js  Modell zur Tabelle klienten
+└── routes/klienten.js
+```
+
+Eine neue Migration anlegen:
+
+```bash
+npx sequelize-cli migration:generate --name was-sie-macht
+npm run db:migrate
+```
+
+**Zwei Dinge, die verwirren können:**
+
+- Die Dateien unter `db/` sind CommonJS (`module.exports`), der Rest des Projekts ist
+  ESM (`import`/`export`). Dafür sorgt `db/package.json` – die `sequelize-cli` lädt ihre
+  Dateien per `require()` und käme mit ESM nicht klar.
+- Das Modell in `src/models/klient.js` legt **keine** Tabellen an (kein `sequelize.sync()`).
+  Wer dort ein Feld ergänzt, braucht immer auch eine Migration dazu – sonst kennt die
+  Anwendung eine Spalte, die es in der Datenbank nicht gibt.
 
 ## API
 
@@ -87,5 +127,7 @@ direkt ohne Proxy-Konfiguration aufrufen.
   ausführen. Backend neu starten – es liest denselben Wert aus der `.env`.
 - **Port 3000 ist schon belegt:** In der `.env` den Wert `PORT` ändern.
 - **Datenbank kaputtgespielt?** `npm run db:reset` stellt den Ausgangszustand her.
+- **„relation ›klienten‹ does not exist"**: Die Migrationen sind noch nicht gelaufen –
+  `npm run db:migrate` (oder gleich `npm run db:reset`).
 - **„Keine Verbindung zur Datenbank"** beim Start: Läuft der Container? `docker compose up -d`
   ausführen und kurz warten – das Backend versucht es beim Start bis zu 15 Sekunden lang.

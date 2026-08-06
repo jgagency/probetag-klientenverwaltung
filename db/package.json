@@ -1,0 +1,4 @@
+{
+  "//": "Kein eigenes Paket – dieser Eintrag schaltet db/ auf CommonJS um. Die sequelize-cli lädt Config, Migrationen und Seeds per require(); ohne diese Datei würden sie unter dem \"type\": \"module\" des Hauptprojekts als ESM gelesen und mit 'require is not defined' scheitern.",
+  "type": "commonjs"
+}
