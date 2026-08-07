@@ -11,6 +11,7 @@ const klientFelder = {
   email: { type: 'string', nullable: true, example: 'max.mustermann@example.de' },
   versicherungsnummer: { type: 'string', nullable: true, example: 'A123456789' },
   versicherungsname: { type: 'string', nullable: true, example: 'AOK Essen' },
+  geburtsdatum: { type: 'date', nullable: true, example: "2026-08-06"}
 };
 
 const fehlerAntwort = (beschreibung, beispiel) => ({
@@ -41,6 +42,32 @@ export default {
         responses: {
           200: {
             description: 'Alle Klienten, sortiert nach id',
+            content: {
+              'application/json': {
+                schema: { type: 'array', items: { $ref: '#/components/schemas/Klient' } },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/klienten/': {
+      get: {
+        tags: ['Klienten'],
+        summary: 'Liste aller Klienten mit einer bestimmten Versicherung abrufen',
+        parameters: [{ $ref: '#/components/parameters/Versicherungsname' }],
+        /*queries: {
+          versicherungsname: ''
+        },/*
+        requestBody: {
+          required: true,
+          content: {
+            versicherungsname: ''
+          },
+        },*/
+        responses: {
+          200: {
+            description: 'Alle gesuchten Klienten, sortiert nach id',
             content: {
               'application/json': {
                 schema: { type: 'array', items: { $ref: '#/components/schemas/Klient' } },
@@ -111,6 +138,18 @@ export default {
           404: fehlerAntwort('Kein Klient mit dieser id', 'Klient mit ID 9999 wurde nicht gefunden.'),
         },
       },
+      delete: {
+        tags: ['Klienten'],
+        summary: 'Einzelnen Klienten löschen',
+        parameters: [{ $ref: '#/components/parameters/KlientId' }],
+        responses: {
+          204: {
+            description: 'Der angefragte Klient wurde gelöscht',
+          },
+          400: fehlerAntwort('Ungültige id', 'Ungültige ID – erwartet wird eine positive Zahl.'),
+          404: fehlerAntwort('Kein Klient mit dieser id', 'Klient mit ID 9999 wurde nicht gefunden.'),
+        },
+      },
     },
   },
   components: {
@@ -121,6 +160,34 @@ export default {
         required: true,
         description: 'id des Klienten (positive ganze Zahl)',
         schema: { type: 'integer', minimum: 1, example: 1 },
+      },
+      vorname: {
+        name: 'vorname',
+        in: 'query',
+        required: false,
+        description: 'Vorname des Klienten (string)',
+        schema: { type: 'string' }
+      },
+      nachname: {
+        name: 'nachname',
+        in: 'query',
+        required: false,
+        description: 'Nachname des Klienten (string)',
+        schema: { type: 'string' }
+      },
+      Versicherungsname: {
+        name: 'versicherungsname',
+        in: 'query',
+        required: false,
+        description: 'Name der Versicherung (string)',
+        schema: { type: 'string' }
+      },
+      Versicherungsnummer: {
+        name: 'versicherungsnummer',
+        in: 'query',
+        required: false,
+        description: 'Versicherungsnummer des Klienten (string)',
+        schema: { type: 'string' }
       },
     },
     schemas: {

@@ -3,15 +3,17 @@ import {FormBuilder, Validators} from '@angular/forms';
 import {ClientService} from '../client-service/client-service';
 import {Client} from '../clients/client';
 import {Observable} from 'rxjs';
+import {ClientSearchService} from '../client-search-service/client-search-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientFormGroupService {
 
   constructor (private clientService: ClientService) {}
 
   private formBuilder = inject(FormBuilder);
+  private searchService = inject(ClientSearchService);
 
   clientForm = this.formBuilder.nonNullable.group({
     vorname: ['', Validators.required],
@@ -22,7 +24,8 @@ export class ClientFormGroupService {
     telefon: ['', Validators.pattern(/[0-9]$/)],
     email: ['', [Validators.required, Validators.email]],
     versicherungsnummer: ['', [Validators.minLength(10),Validators.maxLength(10)]],
-    versicherungsname: ['']
+    versicherungsname: [''],
+    geburtsdatum: [null]
   })
 
   client = signal<Client>({
@@ -35,30 +38,35 @@ export class ClientFormGroupService {
     telefon: "",
     email: "",
     versicherungsname: "",
-    versicherungsnummer: ""
+    versicherungsnummer: "",
+    geburtsdatum: null
   })
 
   displayVorname = signal(this.clientForm.get('vorname')?.value);
   displayNachname = signal(this.clientForm.get('nachname')?.value);
 
-  save(): void{
+  saveClient(): void{
     const savedClient = {...this.clientForm.getRawValue()};
-    this.clientService.saveClient(savedClient);
-    this.reset();
+    this.clientService.saveClient(savedClient).subscribe((results) => {
+      this.reset();
+      this.searchService.searchForm.updateValueAndValidity({ emitEvent: true });
+    });
   }
 
   reset(): void{
     this.clientForm.reset();
   }
 
-  getClientToEdit(id: number): void{
+  getClientToEdit(id: number): string{
     this.clientService.getClientById(id).subscribe((result) => {
         this.clientForm.patchValue(result);
         this.client().id = id;
         this.displayVorname.set(this.clientForm.get('vorname')?.value);
         this.displayNachname.set(this.clientForm.get('nachname')?.value);
+        return this.displayVorname + " " + this.displayNachname;
       }
     );
+    return "";
   }
 
   edit(): Observable<Client>{

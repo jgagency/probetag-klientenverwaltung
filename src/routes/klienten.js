@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import Klient from '../models/klient.js';
+import {Op} from "sequelize";
 
 const router = Router();
 
@@ -15,6 +16,7 @@ const FELDER = [
   'email',
   'versicherungsnummer',
   'versicherungsname',
+  'geburtsdatum'
 ];
 
 function parseId(wert) {
@@ -27,6 +29,35 @@ function parseId(wert) {
 function werteAusBody(body) {
   return Object.fromEntries(FELDER.map((feld) => [feld, body?.[feld] ?? null]));
 }
+
+function searchBuilderFromParams(params){
+  const {vorname, nachname, versicherungsname, versicherungsnummer} = params;
+  const whereSearch = {};
+
+  if(vorname){
+    whereSearch.vorname = { [Op.iLike]: `%${vorname}%` };
+  }
+  if(nachname){
+    whereSearch.nachname = { [Op.iLike]: `%${nachname}%` };
+  }
+  if(versicherungsname){
+    whereSearch.versicherungsname = { [Op.iLike]: `%${versicherungsname}%` };
+  }
+  if(versicherungsnummer){
+    whereSearch.versicherungsnummer = { [Op.iLike]: `%${versicherungsnummer}%` };
+  }
+
+  return whereSearch;
+}
+
+router.get('/klienten/', async (req,res ) => {
+  const whereSearch = searchBuilderFromParams(req.query);
+  const klienten = await Klient.findAll({
+    where: whereSearch,
+    order: [['id', 'ASC']]
+  });
+  res.json(klienten);
+});
 
 // Liste aller Klienten
 router.get('/klienten', async (req, res) => {
@@ -68,5 +99,18 @@ router.put('/klient/:id', async (req, res) => {
   }
   res.json(zeilen[0]);
 });
+
+router.delete('/klient/:id', async (req, res)=> {
+  const id = parseId(req.params.id);
+  if (id === null) {
+    return res.status(400).json({ message: 'Ungültige ID – erwartet wird eine positive Zahl.' });
+  }
+  const klient = await Klient.findByPk(id);
+  if (klient === null) {
+    return res.status(404).json({ message: `Klient mit ID ${id} gibt es nicht.` });
+  }
+  await klient.destroy();
+  res.status(204).json({message: `Klient mit ID ${id} wurde gelöscht`})
+})
 
 export default router;

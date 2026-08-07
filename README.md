@@ -82,12 +82,13 @@ Beispiel-Requests liegen außerdem in [`requests.http`](requests.http)
 
 ### Endpunkte
 
-| Methode | Endpunkt       | Zweck                        | Antwort                          |
-|---------|----------------|------------------------------|----------------------------------|
-| GET     | `/klienten`    | Liste aller Klienten         | `200` + Array                    |
-| POST    | `/klient`      | Neuen Klienten anlegen       | `201` + angelegtes Objekt        |
-| GET     | `/klient/<id>` | Einzelnen Klienten abrufen   | `200` + Objekt, `404` unbekannt  |
-| PUT     | `/klient/<id>` | Klienten aktualisieren       | `200` + Objekt, `404` unbekannt  |
+| Methode | Endpunkt       | Zweck                      | Antwort                         |
+|---------|----------------|----------------------------|---------------------------------|
+| GET     | `/klienten`    | Liste aller Klienten       | `200` + Array                   |
+| POST    | `/klient`      | Neuen Klienten anlegen     | `201` + angelegtes Objekt       |
+| GET     | `/klient/<id>` | Einzelnen Klienten abrufen | `200` + Objekt, `404` unbekannt |
+| PUT     | `/klient/<id>` | Klienten aktualisieren     | `200` + Objekt, `404` unbekannt |
+| DELETE  | `/klient/<id>` | Klienten löschen           | `204`, `404` unbekannt          |
 
 **Hinweis zu PUT:** Vollupdate – es werden immer alle Felder gesetzt. Felder, die im Body
 fehlen, werden geleert (`null`). Also beim Speichern immer das komplette Objekt schicken.
@@ -108,7 +109,8 @@ oder kaputtem JSON, `404` bei unbekannter ID).
   "telefon": "0201 1234567",
   "email": "max.mustermann@example.de",
   "versicherungsnummer": "A123456789",
-  "versicherungsname": "AOK Essen"
+  "versicherungsname": "AOK Essen",
+  "geburtsdatum": "2026-08-06"
 }
 ```
 

@@ -21,6 +21,7 @@ const Klient = sequelize.define(
     email: DataTypes.TEXT,
     versicherungsnummer: DataTypes.TEXT,
     versicherungsname: DataTypes.TEXT,
+    geburtsdatum: DataTypes.DATEONLY
   },
   {
     tableName: 'klienten',

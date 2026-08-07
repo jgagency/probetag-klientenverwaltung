@@ -1,16 +1,18 @@
-import {Component, inject, computed, signal, WritableSignal, Signal} from '@angular/core';
-import { Client } from './client';
-import { ClientService } from '../client-service/client-service';
-import {SlicePipe} from '@angular/common';
+import {Component, inject, computed, signal} from '@angular/core';
+import {DatePipe, SlicePipe} from '@angular/common';
 import {RouterLink, ActivatedRoute} from '@angular/router';
 import {CreateClient} from '../create-client/create-client';
 import {ClientFormGroupService} from '../client-form-group-service/client-form-group-service';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import {FormsModule} from '@angular/forms';
+import {CollapseDirective} from 'ngx-bootstrap/collapse';
+import {ClientSearch} from '../client-search/client-search';
+import {ClientSearchService} from '../client-search-service/client-search-service';
+import {GlobalValues} from '../global-values/global-values';
 
 @Component({
   selector: 'app-clients',
-  imports: [SlicePipe, RouterLink, CreateClient, PaginationModule, FormsModule],
+  imports: [SlicePipe, RouterLink, CreateClient, PaginationModule, FormsModule, CollapseDirective, ClientSearch, DatePipe],
   templateUrl: './clients.html',
   styleUrl: './clients.css',
 })
@@ -18,96 +20,81 @@ export class Clients {
 
   constructor(private activatedRoute: ActivatedRoute, private clientFormGroupService: ClientFormGroupService) {}
 
-  private clientService = inject(ClientService);
+  private clientSearchService = inject(ClientSearchService);
+  private globalValues = inject(GlobalValues);
 
   showBoundaryLinks = true;
 
-  sortedClients: Signal<Client[]> = this.clientService.clients;
-
-  tempClients = this.sortedClients;
-
-  range(i: number): number[] {
-    return Array.from({length: i}, (_, i) => i);
-  }
+  isCollapsed = true;
 
   visibleClients = computed(() =>
-    this.sortedClients().slice(this.startNumber, this.endNumber)
+    this.sortedClients().slice(this.startNumber(), this.startNumber()+5)
   )
 
   currentPage = signal(1);
 
   ngOnInit(): void {
     this.clientFormGroupService.reset();
-    this.clientService.getClientsSelf();
     let id= Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.visibleClientArea(id);
+    this.globalValues.pageName.set("Klienten");
   }
 
-  sortingNumber = 1;
-  startNumber = 0;
-  endNumber = 5;
-
-  private visibleClientsSlicing(): void{
-    this.visibleClients = computed(() =>
-      this.sortedClients().slice(this.startNumber, this.endNumber)
-    )
-  }
+  startNumber = signal(0);
 
   public visibleClientArea(area: number): void{
-    this.startNumber = (area-1) * 5;
-    this.endNumber = this.startNumber + 5;
-    this.visibleClientsSlicing();
+    this.startNumber.set((area-1) * 5);
     this.currentPage.set(area);
   }
 
-  private reverseSort(): void {
-    this.tempClients = this.sortedClients;
-    this.sortedClients = computed( () => {
-      return [...this.tempClients()].reverse()
-    });
-    this.sortingNumber *= -1;
+  sortField = signal<'id'|'vorname'|'nachname'>('id');
+  sortDirection = signal<number>(1);
+
+  sortedClients = computed(() =>{
+    const clients = [...this.clientSearchService.clients()];
+    const field = this.sortField();
+    const dir = this.sortDirection();
+
+    clients.sort((a, b) => {
+      let result = 0;
+      switch (field){
+        case "id":
+          result = a.id - b.id;
+          break;
+        case "vorname":
+          result = a.vorname.localeCompare(b.vorname);
+          break;
+        case "nachname":
+          result = a.nachname.localeCompare(b.nachname);
+          break;
+      }
+      return result * dir;
+    })
+
+    return clients;
+  })
+
+  private toggleSort(field: 'id' | 'vorname' | 'nachname'){
+    if(this.sortField() != field){
+      this.sortField.set(field);
+      this.sortDirection.set(1);
+    }
+    else{
+      this.sortDirection.update(d => d * -1);
+    }
   }
 
   sortId(): void {
-    if(this.sortingNumber != 1){
-      this.sortedClients = computed(() => {
-        return [...this.clientService.clients()].sort((a, b) => a.id! - b.id!)
-      });
-      this.sortingNumber = 1;
-    }
-    else{
-      this.reverseSort();
-    }
-
-    this.visibleClientsSlicing();
+    this.toggleSort('id');
   }
 
   sortVorname(): void {
-    if(this.sortingNumber != 2){
-      this.sortedClients = computed(() => {
-        return [...this.clientService.clients()].sort((a, b) => a.vorname.localeCompare(b.vorname))
-      })
-      this.sortingNumber = 2;
-    }
-    else{
-      this.reverseSort();
-    }
-
-    this.visibleClientsSlicing();
+    this.toggleSort('vorname');
   }
 
   sortNachname(): void {
-    if (this.sortingNumber != 3){
-      this.sortedClients = computed(() => {
-        return [...this.clientService.clients()].sort((a, b) => a.nachname.localeCompare(b.nachname))
-      })
-      this.sortingNumber = 3;
-    }
-    else{
-      this.reverseSort();
-    }
-
-    this.visibleClientsSlicing();
+    this.toggleSort('nachname');
   }
 
+  protected readonly toString = toString;
 }

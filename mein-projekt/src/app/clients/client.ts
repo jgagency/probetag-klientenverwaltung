@@ -8,5 +8,6 @@ export interface Client{
   telefon: string,
   email: string,
   versicherungsnummer: string,
-  versicherungsname: string
+  versicherungsname: string,
+  geburtsdatum: string
 }

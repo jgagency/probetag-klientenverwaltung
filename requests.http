@@ -22,7 +22,8 @@ Content-Type: application/json
   "telefon": "0201 000000",
   "email": "erika.beispiel@example.de",
   "versicherungsnummer": "Z999999999",
-  "versicherungsname": "AOK Essen"
+  "versicherungsname": "AOK Essen",
+  "geburtsdatum": "2026-08-06"
 }
 
 ### Klienten aktualisieren (Vollupdate – immer alle Felder schicken!)

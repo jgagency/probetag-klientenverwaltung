@@ -9,6 +9,7 @@
               [disabled]="clientFormGroupService.clientForm.invalid"
       >Speichern</button>
       <button type="button" (click)="clientFormGroupService.resetClient()" class="btn btn-group-grey ms-1">Zurücksetzen</button>
+      <button type="button" data-bs-target="#deleteModalToggle"  class="btn btn-danger ms-2" data-bs-toggle="modal">Löschen</button>
     </div>
     <br><br>
     <h3>Persönliche Daten</h3>
@@ -61,6 +62,10 @@
         </div>
       </div>
     </div>
+    <div class="mb-2 flex-grow-1 w-25 justify-content-center">
+      <label class="form-label mb-1">Geburtsdatum</label>
+      <input type="text" class="form-control" formControlName="geburtsdatum" name="geburtsdatum" bsDatepicker [bsValue]="getDate()" [bsConfig]="bsConfig">
+    </div>
     <div class="row">
       <div class="col d-flex">
         <div class="mb-3 flex-grow-1">
@@ -104,5 +109,22 @@
       </div>
     </div>
   </form>
+  <div class="modal fade" id="deleteModalToggle" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="deleteModalLabel">Achtung</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Du bist dabei diesen Klienten zu löschen!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+          <button type="button" class="btn btn-danger" (click)="delete()" data-bs-dismiss="modal">Löschen</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
