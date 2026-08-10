@@ -38,6 +38,9 @@ export class Clients {
     let id= Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.visibleClientArea(id);
     this.globalValues.pageName.set("Klienten");
+    this.globalValues.breadcrumbs.set([
+      {label: 'Klienten'}
+    ]);
   }
 
   startNumber = signal(0);

@@ -9,7 +9,7 @@
               [disabled]="clientFormGroupService.clientForm.invalid"
       >Speichern</button>
       <button type="button" (click)="clientFormGroupService.resetClient()" class="btn btn-group-grey ms-1">Zurücksetzen</button>
-      <button type="button" data-bs-target="#deleteModalToggle"  class="btn btn-danger ms-2" data-bs-toggle="modal">Löschen</button>
+      <button type="button" data-bs-target="#deleteModalToggle"  class="btn btn-danger ms-1" data-bs-toggle="modal">Löschen</button>
     </div>
     <br><br>
     <h3>Persönliche Daten</h3>
@@ -116,7 +116,7 @@
           <h1 class="modal-title fs-5" id="deleteModalLabel">Achtung</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body mx-auto align-content-center">
           Du bist dabei diesen Klienten zu löschen!
         </div>
         <div class="modal-footer">

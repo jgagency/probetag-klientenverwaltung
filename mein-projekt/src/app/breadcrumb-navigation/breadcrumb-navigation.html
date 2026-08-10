@@ -1,0 +1,14 @@
+<div class="mx-auto" style="max-width: 80%">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a routerLink=""><i class="fa-regular fa-house fa-lg"></i></a></li>
+      @for(breadcrumb of globalValues.breadcrumbs(); track breadcrumb.label){
+        <li class="breadcrumb-item"><a [routerLink]="breadcrumb.link">{{ breadcrumb.label }}</a></li>
+      }
+    </ol>
+  </nav>
+  <br>
+  <div style="font-weight:bold; font-size: large; font-family: Arial">
+    {{ pageName() }}
+  </div>
+</div>

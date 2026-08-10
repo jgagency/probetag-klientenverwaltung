@@ -1,4 +1,3 @@
-import {signal} from '@angular/core';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
@@ -12,16 +11,8 @@ export class ClientService {
 
   constructor(private http: HttpClient) {}
 
-  clients = signal<Client[]>([]);
-
   getClients(): Observable<Client[]>{
     return this.http.get<Client[]>(this.url + "/klienten");
-  }
-
-  getClientsSelf(): void{
-    this.http.get<Client[]>(this.url + "/klienten").subscribe((result) => {
-      this.clients.set(result);
-    })
   }
 
   getClientSearch(values: Partial<{ vorname: string, nachname: string, versicherungsname: string, versicherungsnummer: string;}> |

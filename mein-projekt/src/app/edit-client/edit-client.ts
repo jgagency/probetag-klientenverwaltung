@@ -6,6 +6,7 @@ import {ClientFormGroupService} from '../client-form-group-service/client-form-g
 import {FormErrors} from '../form-errors/form-errors';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {GlobalValues} from '../global-values/global-values';
+import {ClientSearchService} from '../client-search-service/client-search-service';
 
 @Component({
   selector: 'app-edit-client',
@@ -20,25 +21,36 @@ export class EditClient {
   constructor(private router: Router, private clientService: ClientService, protected clientFormGroupService: ClientFormGroupService, private activatedRoute: ActivatedRoute) {}
 
   private globalValues = inject(GlobalValues);
+  private clientSearchService = inject(ClientSearchService);
 
   ngOnInit(): void {
     let id= Number(this.activatedRoute.snapshot.paramMap.get('id'))
-    this.globalValues.pageName.set(this.clientFormGroupService.getClientToEdit(id));
-    console.log(this.globalValues.pageName())
+    this.clientFormGroupService.getClientToEdit(id).subscribe((result) => {
+      const clientName = `${result.vorname} ${result.nachname}`;
+      this.globalValues.pageName.set(clientName);
+      this.globalValues.breadcrumbs.set([
+        {label: 'Klienten', link: '/klienten'},
+        {label: clientName}
+      ]);
+    })
   }
 
   edit(): void {
-    this.clientFormGroupService.edit().subscribe((result) => {
+    this.clientFormGroupService.edit().subscribe(() => {
       this.router.navigate(['klienten']);
     });
   }
 
   delete(): void {
-    this.clientService.deleteClient(this.clientFormGroupService.client().id).subscribe((result) => {
+    this.clientService.deleteClient(this.clientFormGroupService.client().id).subscribe(() => {
+      this.clientSearchService.refresh();
       this.router.navigate(['klienten']);
-    });  }
+    });
+  }
 
-  getDate(): Date {
+  getDate(): Date | null{
+    if (this.clientFormGroupService.clientForm.get('geburtsdatum')?.value == null)
+      return null
     return new Date(this.clientFormGroupService.clientForm.get('geburtsdatum')?.value);
   }
 

@@ -2,7 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {ClientService} from '../client-service/client-service';
 import {Client} from '../clients/client';
-import {Observable} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {ClientSearchService} from '../client-search-service/client-search-service';
 
 @Injectable({
@@ -47,7 +47,7 @@ export class ClientFormGroupService {
 
   saveClient(): void{
     const savedClient = {...this.clientForm.getRawValue()};
-    this.clientService.saveClient(savedClient).subscribe((results) => {
+    this.clientService.saveClient(savedClient).subscribe(() => {
       this.reset();
       this.searchService.searchForm.updateValueAndValidity({ emitEvent: true });
     });
@@ -57,16 +57,15 @@ export class ClientFormGroupService {
     this.clientForm.reset();
   }
 
-  getClientToEdit(id: number): string{
-    this.clientService.getClientById(id).subscribe((result) => {
+  getClientToEdit(id: number): Observable<Client>{
+    return this.clientService.getClientById(id).pipe(
+      tap((result) => {
         this.clientForm.patchValue(result);
         this.client().id = id;
         this.displayVorname.set(this.clientForm.get('vorname')?.value);
         this.displayNachname.set(this.clientForm.get('nachname')?.value);
-        return this.displayVorname + " " + this.displayNachname;
-      }
-    );
-    return "";
+      })
+    )
   }
 
   edit(): Observable<Client>{

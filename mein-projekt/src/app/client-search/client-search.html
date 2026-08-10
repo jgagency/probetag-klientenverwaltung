@@ -1,0 +1,22 @@
+<div class="d-flex">
+  <form [formGroup]="searchService.searchForm">
+    <div class="d-flex">
+      <div class="mb-2 flex-grow-1 me-1">
+        <label class="form-label mb-1">Vorname</label>
+        <input type="text" class="form-control" formControlName="vorname" name="vorname">
+      </div>
+      <div class="mb-2 flex-grow-1 me-1">
+        <label class="form-label mb-1">Nachname</label>
+        <input type="text" class="form-control" formControlName="nachname" name="nachname">
+      </div>
+      <div class="mb-2 flex-grow-1 me-1">
+        <label class="form-label mb-1">Versicherung</label>
+        <input type="text" class="form-control" formControlName="versicherungsname" name="versicherungsname">
+      </div>
+      <div class="mb-2 flex-grow-1 me-1">
+        <label class="form-label mb-1">Versicherung</label>
+        <input type="text" class="form-control" formControlName="versicherungsnummer" name="versicherungsnummer">
+      </div>
+    </div>
+  </form>
+</div>
