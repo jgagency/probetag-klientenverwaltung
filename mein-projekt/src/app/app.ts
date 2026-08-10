@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import {routes} from './app.routes';
 import {BreadcrumbNavigation} from './breadcrumb-navigation/breadcrumb-navigation';
+import {Alerts} from './alerts/alerts';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, BreadcrumbNavigation],
+  imports: [RouterOutlet, RouterLink, BreadcrumbNavigation, Alerts],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
