@@ -56,15 +56,6 @@ export default {
         tags: ['Klienten'],
         summary: 'Liste aller Klienten mit einer bestimmten Versicherung abrufen',
         parameters: [{ $ref: '#/components/parameters/Versicherungsname' }],
-        /*queries: {
-          versicherungsname: ''
-        },/*
-        requestBody: {
-          required: true,
-          content: {
-            versicherungsname: ''
-          },
-        },*/
         responses: {
           200: {
             description: 'Alle gesuchten Klienten, sortiert nach id',
@@ -151,6 +142,127 @@ export default {
         },
       },
     },
+
+
+    "/api/auth/sign-up/email": {
+      "post": {
+        "summary": "Neuen Nutzer registrieren",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password", "name"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "test@test.de"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "test1234"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Test User"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Erfolgreich registriert",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "email": { "type": "string" },
+                        "name": { "type": "string" }
+                      }
+                    },
+                    "token": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ungültige Eingabe (z. B. E-Mail bereits vergeben)"
+          }
+        }
+      }
+    },
+
+
+    "/api/auth/sign-in/email": {
+      "post": {
+        "summary": "Nutzer einloggen",
+        "tags": ["Auth"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "test@test.de"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "test1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Login erfolgreich",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {"type": "string"},
+                        "email": {"type": "string"},
+                        "name": {"type": "string"}
+                      }
+                    },
+                    "token": {"type": "string"}
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Ungültige Zugangsdaten"
+          }
+        }
+      }
+    },
+
   },
   components: {
     parameters: {

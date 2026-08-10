@@ -9,16 +9,19 @@
 </head>
 <body>
   <header>
-    <nav class="navbar navbar-expand-lg" style="background-color:#0f2485">
-      <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg shadow" style="background-color:#0f2485">
+      <div class="container-fluid d-flex justify-content-between align-items-center">
         <a routerLink="">
           <img src="jg_logo_white.png" width="100" alt="Logo der J&G Agency">
         </a>
-        <a routerLink="login">
+        <div class="d-flex align-items-center">
+          <div class="me-4" style="color:white">{{this.globalValues.username()}}</div>
+          <a (click)="loginService.logOut()" style="cursor: pointer">
           <span style="color: white">
-            <i class="fa-solid fa-arrow-right-to-bracket fa-xl me-2"></i>
+            <i class="fa-solid fa-arrow-right-from-bracket fa-xl me-2"></i>
           </span>
-        </a>
+          </a>
+        </div>
       </div>
     </nav>
     <div class="p-4 mx-auto" style="background-color: #f2f3f4">
@@ -27,6 +30,7 @@
   </header>
   <main>
     <router-outlet></router-outlet>
+    <app-alerts></app-alerts>
   </main>
   <footer></footer>
 </body>

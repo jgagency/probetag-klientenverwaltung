@@ -5,10 +5,17 @@ import swaggerUi from 'swagger-ui-express';
 import klientenRouter from './routes/klienten.js';
 import openapiSpec from './openapi.js';
 import { waitForDb } from './db.js';
+import {toNodeHandler} from "better-auth/node";
+import {auth} from "../lib/auth.ts";
 
 const app = express();
 
-app.use(cors()); // Dev-Setup: alle Origins erlaubt, damit ng serve (Port 4200) direkt funktioniert
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true
+})); // Dev-Setup: alle Origins erlaubt, damit ng serve (Port 4200) direkt funktioniert
+// Abgeändert, weil better-auth Session Cookies verwendet
+app.all("/api/auth/*rest", toNodeHandler(auth)); //better-auth handler
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpec));
 app.use(klientenRouter);

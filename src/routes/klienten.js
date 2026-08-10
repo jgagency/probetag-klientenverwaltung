@@ -1,8 +1,10 @@
 import { Router } from 'express';
 import Klient from '../models/klient.js';
 import {Op} from "sequelize";
+import {requireAuth} from "../../lib/auth-middleware.ts";
 
 const router = Router();
+router.use(requireAuth);
 
 // Die Felder, die aus dem Request-Body übernommen werden. Alles andere (z. B. eine
 // mitgeschickte id) wird ignoriert. Neues Feld? Hier eintragen — und eine Migration dazu.

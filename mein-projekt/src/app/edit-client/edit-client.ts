@@ -7,6 +7,8 @@ import {FormErrors} from '../form-errors/form-errors';
 import {BsDatepickerModule} from 'ngx-bootstrap/datepicker';
 import {GlobalValues} from '../global-values/global-values';
 import {ClientSearchService} from '../client-search-service/client-search-service';
+import {AlertService} from '../alerts/alert-service';
+import {Client} from '../clients/client';
 
 @Component({
   selector: 'app-edit-client',
@@ -22,6 +24,7 @@ export class EditClient {
 
   private globalValues = inject(GlobalValues);
   private clientSearchService = inject(ClientSearchService);
+  private alertService = inject(AlertService);
 
   ngOnInit(): void {
     let id= Number(this.activatedRoute.snapshot.paramMap.get('id'))
@@ -36,13 +39,16 @@ export class EditClient {
   }
 
   edit(): void {
-    this.clientFormGroupService.edit().subscribe(() => {
+    this.clientFormGroupService.edit().subscribe((result) => {
+      this.alertService.editingAlert(result.vorname + ' ' + result.nachname);
       this.router.navigate(['klienten']);
     });
   }
 
   delete(): void {
+    const clientName = this.clientFormGroupService.client().vorname + ' ' + this.clientFormGroupService.client().nachname;
     this.clientService.deleteClient(this.clientFormGroupService.client().id).subscribe(() => {
+      this.alertService.deletionAlert(this.globalValues.pageName());
       this.clientSearchService.refresh();
       this.router.navigate(['klienten']);
     });

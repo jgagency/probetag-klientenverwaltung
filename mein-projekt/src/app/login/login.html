@@ -1,20 +1,20 @@
 <div class="mx-auto" style="max-width: 60%">
   <br>
-  <form>
+  <form [formGroup]="loginService.loginForm">
     <div class="mx-auto" style="max-width: 60%">
       <div class="row mb-3">
         <label for="inputEmail3" class="col-sm-2 col-form-label">Username</label>
         <div class="col-sm-10">
-          <input type="email" class="form-control" id="inputEmail3">
+          <input type="text" class="form-control" formControlName="username" name="username">
         </div>
       </div>
       <div class="row mb-3">
         <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
         <div class="col-sm-10">
-          <input type="password" class="form-control" id="inputPassword3">
+          <input type="password" class="form-control" formControlName="password" name="password">
         </div>
       </div>
     </div>
-    <button type="submit" class="btn btn-primary">Sign in</button>
+    <button type="submit" class="btn btn-primary" (click)="loginService.logIn()">Sign in</button>
   </form>
 </div>

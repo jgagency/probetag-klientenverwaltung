@@ -5,6 +5,7 @@ import {Injectable, signal} from '@angular/core';
 })
 export class GlobalValues {
   pageName = signal('');
+  username = signal('');
 
   breadcrumbs = signal<{label: string; link?: string}[]>([]);
 }

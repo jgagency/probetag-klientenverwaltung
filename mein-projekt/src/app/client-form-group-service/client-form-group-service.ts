@@ -4,6 +4,7 @@ import {ClientService} from '../client-service/client-service';
 import {Client} from '../clients/client';
 import {Observable, tap} from 'rxjs';
 import {ClientSearchService} from '../client-search-service/client-search-service';
+import {AlertService} from '../alerts/alert-service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class ClientFormGroupService {
 
   private formBuilder = inject(FormBuilder);
   private searchService = inject(ClientSearchService);
+  alertService = inject(AlertService);
 
   clientForm = this.formBuilder.nonNullable.group({
     vorname: ['', Validators.required],
@@ -47,8 +49,9 @@ export class ClientFormGroupService {
 
   saveClient(): void{
     const savedClient = {...this.clientForm.getRawValue()};
-    this.clientService.saveClient(savedClient).subscribe(() => {
+    this.clientService.saveClient(savedClient).subscribe((result) => {
       this.reset();
+      this.alertService.creationAlert(result.vorname + ' ' + result.nachname);
       this.searchService.searchForm.updateValueAndValidity({ emitEvent: true });
     });
   }
