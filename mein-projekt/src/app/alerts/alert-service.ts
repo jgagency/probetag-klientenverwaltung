@@ -59,6 +59,27 @@ export class AlertService {
       }]);
   }
 
+  successAlert(message: string): void{
+    this.alerts.update(current => [...current,{
+      type: 'success',
+      msg: message,
+      timeout: 3000,
+      icon: "fa-regular fa-circle-check fa-xl me-2",
+      style: "color: #115033"
+    }]);
+  }
+
+  dangerAlert(message: string): void{
+    this.alerts.update(current => [...current,
+      {
+        type: 'danger',
+        msg: message,
+        timeout: 4000,
+        icon: "fa-solid fa-exclamation fa-xl me-2",
+        style: "color: #7f2028"
+      }]);
+  }
+
   onClosed(dismissedAlert: AlertType): void {
     this.alerts.set(this.alerts().filter((alert) => alert !== dismissedAlert));
   }

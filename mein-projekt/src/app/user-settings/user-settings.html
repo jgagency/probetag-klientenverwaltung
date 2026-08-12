@@ -1,0 +1,23 @@
+<br>
+<div class="mx-auto" style="max-width: 75%">
+  <div class="d-flex">
+    <div class="list-group w-25">
+      <button type="button" class="list-group-item list-group-item-action" [class.active]="selectedTab() === 'nutzer'"
+              (click)="selectTab('nutzer')" routerLink="nutzer" routerLinkActive="active">
+        Nutzer
+      </button>
+      <button type="button" class="list-group-item list-group-item-action" [class.active]="selectedTab() === 'general'"
+              (click)="selectTab('general')" routerLink="general" routerLinkActive="active">
+        Generelle Einstellungen
+      </button>
+      <button type="button" class="list-group-item list-group-item-action" [class.active]="selectedTab() === 'safety'"
+              (click)="selectTab('safety')" routerLink="sicherheit" routerLinkActive="active">
+        Sicherheitseinstellungen
+      </button>
+    </div>
+    <div class="ms-5 w-75">
+      <br>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

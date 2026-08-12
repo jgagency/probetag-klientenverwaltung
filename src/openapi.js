@@ -50,25 +50,6 @@ export default {
           },
         },
       },
-    },
-    '/klienten/': {
-      get: {
-        tags: ['Klienten'],
-        summary: 'Liste aller Klienten mit einer bestimmten Versicherung abrufen',
-        parameters: [{ $ref: '#/components/parameters/Versicherungsname' }],
-        responses: {
-          200: {
-            description: 'Alle gesuchten Klienten, sortiert nach id',
-            content: {
-              'application/json': {
-                schema: { type: 'array', items: { $ref: '#/components/schemas/Klient' } },
-              },
-            },
-          },
-        },
-      },
-    },
-    '/klient': {
       post: {
         tags: ['Klienten'],
         summary: 'Neuen Klienten anlegen',
@@ -89,7 +70,24 @@ export default {
         },
       },
     },
-    '/klient/{id}': {
+    '/klienten/': {
+      get: {
+        tags: ['Klienten'],
+        summary: 'Liste aller Klienten mit einer bestimmten Versicherung abrufen',
+        parameters: [{ $ref: '#/components/parameters/Versicherungsname' }],
+        responses: {
+          200: {
+            description: 'Alle gesuchten Klienten, sortiert nach id',
+            content: {
+              'application/json': {
+                schema: { type: 'array', items: { $ref: '#/components/schemas/Klient' } },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/klienten/{id}': {
       get: {
         tags: ['Klienten'],
         summary: 'Einzelnen Klienten abrufen',

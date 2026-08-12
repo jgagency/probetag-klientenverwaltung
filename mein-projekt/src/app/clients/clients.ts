@@ -35,8 +35,8 @@ export class Clients {
 
   ngOnInit(): void {
     this.clientFormGroupService.reset();
-    let id= Number(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.visibleClientArea(id);
+    //let id= Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.visibleClientArea(1);
     this.globalValues.pageName.set("Klienten");
     this.globalValues.breadcrumbs.set([
       {label: 'Klienten'}

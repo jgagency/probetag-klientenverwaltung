@@ -8,9 +8,11 @@ module.exports = {
     //const auth = authModule.auth;
     const result = await authModule.auth.api.signUpEmail({
       body: {
-        email: 'admin@probetag.de',
-        password: 'sicheresPasswort123',
-        name: 'Admin',
+        email: process.env.SEED_ADMIN_EMAIL,
+        password: process.env.SEED_ADMIN_PASSWORD,
+        name: process.env.SEED_ADMIN_NAME,
+        username: process.env.SEED_ADMIN_NAME,
+        displayUsername: process.env.SEED_ADMIN_NAME,
       }
     });
   },

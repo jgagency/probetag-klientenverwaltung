@@ -31,7 +31,7 @@
   <div style="min-height: 450px">
     @for (client of visibleClients(); track client.id){
       <div class="list-group">
-        <a routerLink="/klient/{{client.id}}" class="list-group-item list-group-item-action" aria-current="true">
+        <a routerLink="/klienten/{{client.id}}" class="list-group-item list-group-item-action" aria-current="true">
           <div class="d-flex">
             <div class="rounded-circle d-flex align-items-center justify-content-center text-white fs-2 mt-1 mb-1" style="width: 60px; height: 60px; background-color: #3268ff">
               {{ client.vorname | slice:0:1 }}{{ client.nachname | slice:0:1 }}

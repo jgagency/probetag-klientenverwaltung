@@ -68,13 +68,13 @@ router.get('/klienten', async (req, res) => {
 });
 
 // Neuen Klienten anlegen
-router.post('/klient', async (req, res) => {
+router.post('/klienten', async (req, res) => {
   const klient = await Klient.create(werteAusBody(req.body));
   res.status(201).json(klient);
 });
 
 // Einzelnen Klienten abrufen
-router.get('/klient/:id', async (req, res) => {
+router.get('/klienten/:id', async (req, res) => {
   const id = parseId(req.params.id);
   if (id === null) {
     return res.status(400).json({ message: 'Ungültige ID – erwartet wird eine positive Zahl.' });
@@ -87,7 +87,7 @@ router.get('/klient/:id', async (req, res) => {
 });
 
 // Klienten aktualisieren (Vollupdate: nicht mitgeschickte Felder werden geleert)
-router.put('/klient/:id', async (req, res) => {
+router.put('/klienten/:id', async (req, res) => {
   const id = parseId(req.params.id);
   if (id === null) {
     return res.status(400).json({ message: 'Ungültige ID – erwartet wird eine positive Zahl.' });
@@ -102,7 +102,7 @@ router.put('/klient/:id', async (req, res) => {
   res.json(zeilen[0]);
 });
 
-router.delete('/klient/:id', async (req, res)=> {
+router.delete('/klienten/:id', async (req, res)=> {
   const id = parseId(req.params.id);
   if (id === null) {
     return res.status(400).json({ message: 'Ungültige ID – erwartet wird eine positive Zahl.' });

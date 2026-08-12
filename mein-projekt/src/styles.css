@@ -10,3 +10,8 @@
   --bs-pagination-active-bg: #0f2485;
   --bs-pagination-active-border-color: #0f2485;
 }
+
+.list-group-item.active{
+  background-color: #0f2480;
+  color: white;
+}

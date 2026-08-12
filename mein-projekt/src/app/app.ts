@@ -5,7 +5,6 @@ import {BreadcrumbNavigation} from './breadcrumb-navigation/breadcrumb-navigatio
 import {Alerts} from './alerts/alerts';
 import {LoginService} from './login/login-service';
 import {GlobalValues} from './global-values/global-values';
-import {AuthService} from './auth/auth-service';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +15,5 @@ import {AuthService} from './auth/auth-service';
 export class App {
   protected loginService = inject(LoginService);
   protected globalValues = inject(GlobalValues);
-  private authService = inject(AuthService);
 
-  /*async ngOnInit() {
-    await this.authService.isLoggedIn();
-  }*/
 }

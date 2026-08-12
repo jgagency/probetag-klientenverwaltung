@@ -15,7 +15,7 @@
     <h3>Persönliche Daten</h3>
     <div class="row">
       <div class="col d-flex">
-        <div class="mb-3 flex-grow-1">
+        <div class="mb-3 flex-grow-1 w-50">
           <label class="form-label">Vorname*</label>
           <input type="text" class="form-control" formControlName="vorname"
               [class.is-invalid]="clientFormGroupService.clientForm.get('vorname')?.invalid &&
@@ -23,7 +23,7 @@
           >
           <app-form-errors [control]="clientFormGroupService.clientForm.get('vorname')"></app-form-errors>
         </div>
-        <div class="ms-4 flex-grow-1">
+        <div class="ms-4 flex-grow-1 w-50">
           <label class="form-label">Nachname*</label>
           <input type="text" class="form-control" formControlName="nachname"
               [class.is-invalid]="clientFormGroupService.clientForm.get('nachname')?.invalid &&
@@ -68,7 +68,7 @@
     </div>
     <div class="row">
       <div class="col d-flex">
-        <div class="mb-3 flex-grow-1">
+        <div class="mb-3 flex-grow-1 w-50">
           <label class="form-label">Telefon</label>
           <input type="text" class="form-control" formControlName="telefon"
              [class.is-invalid]="clientFormGroupService.clientForm.get('telefon')?.invalid &&
@@ -76,7 +76,7 @@
           <app-form-errors [control]="clientFormGroupService.clientForm.get('telefon')"
              patternMessage="Bitte eine gültige Telefonnummer eingeben."></app-form-errors>
         </div>
-        <div class="ms-4 flex-grow-1">
+        <div class="ms-4 flex-grow-1 w-50">
           <label class="form-label">E-Mail-Adresse*</label>
           <input type="text" class="form-control" formControlName="email"
             [class.is-invalid]="clientFormGroupService.clientForm.get('email')?.invalid &&
@@ -87,7 +87,7 @@
     </div>
     <div class="row">
       <div class="col d-flex">
-        <div class="mb-3 flex-grow-1">
+        <div class="mb-3 flex-grow-1 w-50">
           <label class="form-label">Versicherungsnummer</label>
           <input type="text" class="form-control" formControlName="versicherungsnummer"
                  [class.is-invalid]="clientFormGroupService.clientForm.get('versicherungsnummer')?.invalid &&
@@ -98,7 +98,7 @@
                            maxLengthMessage="Eine Versicherungsnummer hat zehn Ziffern."
           ></app-form-errors>
         </div>
-        <div class="ms-4 flex-grow-1">
+        <div class="ms-4 flex-grow-1 w-50">
           <label class="form-label">Versicherungsname</label>
           <input type="text" class="form-control" formControlName="versicherungsname"
                  [class.is-invalid]="clientFormGroupService.clientForm.get('versicherungsname')?.invalid &&

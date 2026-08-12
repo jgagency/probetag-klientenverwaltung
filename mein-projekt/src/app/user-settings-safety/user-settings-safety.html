@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-center">
+  <accordion style="width: 80%" [closeOthers]="true" [isAnimated]="true">
+    <accordion-group heading="Passwort" (isOpenChange)="editUserService.resetForms()">
+      <form [formGroup]="editUserService.editPasswordForm">
+        <div class="mx-auto" style="max-width: 60%">
+          <div class="row mb-3 flex-grow-1">
+            <label class="form-label">aktuelles Passwort:</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" formControlName="currentPassword" name="currentPassword"
+                     [class.is-invalid]="editUserService.editPasswordForm.get('currentPassword')?.invalid &&
+                     editUserService.editPasswordForm.get('currentPassword')?.touched"
+              >
+              <app-form-errors [control]="editUserService.editPasswordForm.get('currentPassword')"></app-form-errors>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="form-label">neues Passwort:</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" formControlName="newPassword" name="newPassword"
+                     [class.is-invalid]="editUserService.editPasswordForm.get('newPassword')?.invalid &&
+                     editUserService.editPasswordForm.get('newPassword')?.touched"
+              >
+              <app-form-errors [control]="editUserService.editPasswordForm.get('newPassword')"
+                minLengthMessage="Das Passwort muss mindestens 8 Zeichen lang sein."
+              ></app-form-errors>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label class="form-label">neues Passwort wiederholen:</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" formControlName="confirmPassword" name="confirmPassword"
+                     [class.is-invalid]="editUserService.editPasswordForm.get('confirmPassword')?.invalid &&
+                     editUserService.editPasswordForm.get('confirmPassword')?.touched"
+              >
+              <app-form-errors [control]="editUserService.editPasswordForm.get('confirmPassword')"></app-form-errors>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="editUserService.changePasswordSubmit()"
+          [disabled]="editUserService.editPasswordForm.invalid" style="background-color: #0f2480; color: white"
+        >Update Password</button>
+      </form>
+    </accordion-group>
+    <accordion-group heading="2FA" (isOpenChange)="editUserService.resetForms()">
+      <p>Content 1</p>
+    </accordion-group>
+    <accordion-group heading="Other" (isOpenChange)="editUserService.resetForms()">
+      <p>Content 2</p>
+    </accordion-group>
+  </accordion>
+</div>

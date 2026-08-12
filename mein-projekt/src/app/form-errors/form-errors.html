@@ -25,4 +25,9 @@
       {{ maxLengthMessage() }}
     </div>
   }
+  @if (hasMismatchError()){
+    <div class="invalid-feedback d-block">
+      Die Eingaben stimmen nicht überein.
+    </div>
+  }
 }

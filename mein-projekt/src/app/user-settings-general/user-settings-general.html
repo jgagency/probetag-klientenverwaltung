@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <accordion style="width: 80%" [closeOthers]="true" [isAnimated]="true">
+    <accordion-group heading="Benutzername ändern" (isOpenChange)="editUserService.resetForms()">
+      <form [formGroup]="editUserService.editUsernameForm">
+        <div class="mx-auto" style="max-width: 60%">
+          <div class="row mb-3 flex-grow-1">
+            <label class="form-label">Neuer Nutzername:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="newUsername" name="newUsername"
+                     [class.is-invalid]="editUserService.editUsernameForm.get('newUsername')?.invalid &&
+                     editUserService.editUsernameForm.get('newUsername')?.touched"
+              >
+              <app-form-errors [control]="editUserService.editUsernameForm.get('newUsername')"
+                patternMessage="Bitte einen gültigen Namen eingeben, bestehend aus Buchstaben, Zahlen und Bindestrichen."
+              ></app-form-errors>
+
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="editUserService.changeUsernameSubmit()"
+          [disabled]="editUserService.editUsernameForm.invalid" style="background-color: #0f2480; color: white"
+        >Update Username</button>
+      </form>
+    </accordion-group>
+    <accordion-group heading="E-Mail ändern" (isOpenChange)="editUserService.resetForms()">
+      <form [formGroup]="editUserService.editEmailForm">
+        <div class="mx-auto" style="max-width: 60%">
+          <div class="row mb-3 flex-grow-1">
+            <label class="form-label">Neue E-Mail Adresse:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" formControlName="newEmail" name="newEmail"
+                     [class.is-invalid]="editUserService.editEmailForm.get('newEmail')?.invalid &&
+                     editUserService.editEmailForm.get('newEmail')?.touched"
+              >
+              <app-form-errors [control]="editUserService.editEmailForm.get('newEmail')"
+                               patternMessage="Bitte eine gültige E-Mail Adresse eingeben.."
+              ></app-form-errors>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" (click)="editUserService.changeEmailSubmit()"
+          [disabled]="editUserService.editEmailForm.invalid" style="background-color: #0f2480; color: white"
+        >Update Email</button>
+      </form>
+    </accordion-group>
+    <accordion-group heading="Other" (isOpenChange)="editUserService.resetForms()">
+      <p>Content 2</p>
+    </accordion-group>
+  </accordion>
+</div>

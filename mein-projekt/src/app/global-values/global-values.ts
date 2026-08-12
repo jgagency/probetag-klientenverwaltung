@@ -4,8 +4,13 @@ import {Injectable, signal} from '@angular/core';
   providedIn: 'root'
 })
 export class GlobalValues {
+  frontendURL = signal('http://localhost:4200');
+  userID = signal('1');
+
   pageName = signal('');
-  username = signal('');
+
+  userName = signal('');
+  userMail = signal('');
 
   breadcrumbs = signal<{label: string; link?: string}[]>([]);
 }

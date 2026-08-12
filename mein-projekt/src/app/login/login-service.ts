@@ -29,8 +29,7 @@ export class LoginService {
     const success = await this.authService.login(this.loginForm.value.username, this.loginForm.value.password);
 
     if(success){
-      this.alertService.loginAlert(this.loginForm.value.username);
-      this.globalValues.username.set(this.loginForm.value.username);
+      this.alertService.loginAlert(this.globalValues.userName());
       await this.router.navigate([""]);
     }
     else{
@@ -40,6 +39,6 @@ export class LoginService {
 
   async logOut() {
     await this.authService.logout();
-    this.globalValues.username.set("");
+    this.globalValues.userName.set("");
   }
 }

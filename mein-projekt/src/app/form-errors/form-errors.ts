@@ -32,4 +32,5 @@ export class FormErrors {
   hasPatternError = computed(() => {this.tick(); return this.control()?.hasError('pattern')});
   hasMinError = computed(() => {this.tick(); return this.control()?.hasError('minlength')});
   hasMaxError = computed(() => {this.tick(); return this.control()?.hasError('maxlength')});
+  hasMismatchError = computed(() => { this.tick(); return this.control()?.hasError('mismatch'); })
 }

@@ -15,7 +15,7 @@
           <img src="jg_logo_white.png" width="100" alt="Logo der J&G Agency">
         </a>
         <div class="d-flex align-items-center">
-          <div class="me-4" style="color:white">{{this.globalValues.username()}}</div>
+          <div class="me-4" style="color:white; cursor: pointer" routerLink="/nutzer/{{this.globalValues.userID()}}">{{this.globalValues.userName()}}</div>
           <a (click)="loginService.logOut()" style="cursor: pointer">
           <span style="color: white">
             <i class="fa-solid fa-arrow-right-from-bracket fa-xl me-2"></i>
